@@ -31,9 +31,9 @@ class Tf_train_ctc(object):
     Class to train a speech recognition model with TensorFlow.
 
     Requirements:
-    - TensorFlow 0.12.1
+    - TensorFlow 1.0.1
     - Python 3.5
-    - Configuration: $LEXICONRN_HOME/configs/neural_network.ini
+    - Configuration: $RNN_TUTORIAL/configs/neural_network.ini
 
     Features:
     - Batch loading of input data

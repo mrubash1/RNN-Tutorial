@@ -20,7 +20,7 @@ def get_relevant_directories(
 
 def get_home_dir(home_dir=None):
     if home_dir is None:
-        home_dir = os.environ['LEXICONRN_HOME']
+        home_dir = os.environ['RNN_TUTORIAL']
     return home_dir
 
 
