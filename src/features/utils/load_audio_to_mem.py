@@ -127,7 +127,6 @@ def audiofile_to_input_vector(audio_filename, numcep, numcontext):
         assert(len(train_inputs[time_slice]) == numcep + 2 * numcep * numcontext)
 
     # Scale/standardize the inputs
-    # TODO: Is this necessary? How does it perform without it?
     train_inputs = (train_inputs - np.mean(train_inputs)) / np.std(train_inputs)
     return train_inputs
 
