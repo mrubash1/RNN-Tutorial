@@ -22,6 +22,16 @@ cd $RNN_TUTORIAL
 pip install -r requirements.txt 
 ~~~~
 
+### Install TensorFlow
+If you have a NVIDIA GPU with [CUDA](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/#package-manager-installation) already installed
+~~~~
+pip install tensorflow-gpu==1.0.1
+~~~~
+If you will be running TensorFlow on CPU only (i.e. a MacBook Pro), follow these [instructions](https://www.tensorflow.org/install/install_mac)
+~~~~
+pip3 install --upgrade \
+ https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl
+~~~~
 
 ### Run RNN training
 All configurations for the RNN training script can be found in `configs/neural_network.ini`
