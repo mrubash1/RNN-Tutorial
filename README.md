@@ -22,11 +22,14 @@ cd $RNN-Tutorial
 pip install -r requirements.txt 
 ~~~~
 
+
 ### Run RNN training
 All configurations for the RNN training script can be found in `configs/neural_network.ini`
 ~~~~
 python $RNN-Tutorial/src/train_framework/tf_train_ctc.py
 ~~~~
+_NOTE: If you have a GPU available, the code will run faster if you set `tf_device = /gpu:0` in `configs/neural_network.ini`_
+
 
 ### TensorBoard configuration
 To visualize your results via tensorboard:
@@ -38,8 +41,9 @@ tensorboard --logdir=$RNN-Tutorial/models/nn/debug_models/summary/
 - Related to this are the tf.summary.* methods that log values of network parts, such as distributions of layer activations or error rate across epochs. These summaries are grouped within the `tf.name_scope`.
 - See the official TensorFlow documentation for more details.
 
+
 ### Run unittests
-Run this bash script to discover and run all available unittests: `python -m unittest discover -p *test.py` - of the pattern '*test.py'
+We have included example unittests for the `tf_train_ctc.py` script
 ~~~~
 python $RNN-Tutorial/src/tests/train_framework/tf_train_ctc_test.py
 ~~~~
