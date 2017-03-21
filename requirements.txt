@@ -1,0 +1,11 @@
+mako==1.0.6
+matplotlib==2.0.0
+numpy==1.12.0
+protobuf==3.2.0
+pyyaml==3.12
+pyxdg==0.25
+requests==2.13.0
+scipy==0.18.1
+sox==1.2.6
+tensorflow-gpu==1.0.1
+tree==0.1.0
