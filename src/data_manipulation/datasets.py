@@ -85,7 +85,6 @@ class DataSet:
         self._numcontext = numcontext
         self._thread_count = thread_count
         self._files_circular_list = self._create_files_circular_list()
-        # TODO: temporarily for my_next_batch
         self._start_idx = 0
 
     @classmethod

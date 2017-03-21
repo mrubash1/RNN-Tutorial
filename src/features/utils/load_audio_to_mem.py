@@ -80,7 +80,7 @@ def audiofile_to_input_vector(audio_filename, numcep, numcontext):
     train_inputs = np.array([], np.float32)
     train_inputs.resize((orig_inputs.shape[0], numcep + 2 * numcep * numcontext))
 
-    # Prepare pre-fix post fix context (TODO: Fill empty_mfcc with MCFF of silence)
+    # Prepare pre-fix post fix context
     empty_mfcc = np.array([])
     empty_mfcc.resize((numcep))
 
