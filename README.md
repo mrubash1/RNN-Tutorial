@@ -22,6 +22,7 @@ cd $RNN_TUTORIAL
 pip install -r requirements.txt 
 ~~~~
 
+
 ### Install TensorFlow
 If you have a NVIDIA GPU with [CUDA](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/#package-manager-installation) already installed
 ~~~~
@@ -32,6 +33,7 @@ If you will be running TensorFlow on CPU only (i.e. a MacBook Pro), follow these
 pip3 install --upgrade \
  https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl
 ~~~~
+
 
 ### Run RNN training
 All configurations for the RNN training script can be found in `configs/neural_network.ini`
@@ -47,8 +49,8 @@ To visualize your results via tensorboard:
 tensorboard --logdir=$RNN_TUTORIAL/models/nn/debug_models/summary/
 ~~~~
 - TensorBoard can be found in your browser at `http://127.0.1.1:6006`
-- `tf.name_scope` is used to define parts of the network for visualization in TensorBoard. TensorBoard automatically finds any similarly structured network parts, such as idential fully connected layers and groups them in the graph visualization.
-- Related to this are the tf.summary.* methods that log values of network parts, such as distributions of layer activations or error rate across epochs. These summaries are grouped within the `tf.name_scope`.
+- `tf.name_scope` is used to define parts of the network for visualization in TensorBoard. TensorBoard automatically finds any similarly structured network parts, such as identical fully connected layers and groups them in the graph visualization.
+- Related to this are the `tf.summary.* methods` that log values of network parts, such as distributions of layer activations or error rate across epochs. These summaries are grouped within the `tf.name_scope`.
 - See the official TensorFlow documentation for more details.
 
 
@@ -57,6 +59,7 @@ We have included example unittests for the `tf_train_ctc.py` script
 ~~~~
 python $RNN_TUTORIAL/src/tests/train_framework/tf_train_ctc_test.py
 ~~~~
+
 
 ### Add data
 We have included example data from the [LibriVox corpus](https://librivox.org) in `data/raw/librivox/LibriSpeech/`. The data is separated into folders:
