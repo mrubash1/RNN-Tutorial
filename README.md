@@ -48,7 +48,7 @@ To visualize your results via tensorboard:
 ~~~~
 tensorboard --logdir=$RNN_TUTORIAL/models/nn/debug_models/summary/
 ~~~~
-- TensorBoard can be found in your browser at `http://127.0.1.1:6006`
+- TensorBoard can be found in your browser at `http://localhost:6006`
 - `tf.name_scope` is used to define parts of the network for visualization in TensorBoard. TensorBoard automatically finds any similarly structured network parts, such as identical fully connected layers and groups them in the graph visualization.
 - Related to this are the `tf.summary.* methods` that log values of network parts, such as distributions of layer activations or error rate across epochs. These summaries are grouped within the `tf.name_scope`.
 - See the official TensorFlow documentation for more details.
