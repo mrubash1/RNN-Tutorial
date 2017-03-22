@@ -2,19 +2,14 @@ import os
 from math import ceil
 from random import random
 from glob import glob
-from itertools import cycle
 from configparser import ConfigParser
 import logging
 from collections import namedtuple
-from threading import Thread
-from queue import PriorityQueue
 
-from features.utils.load_audio_to_mem import audiofile_to_input_vector
+from features.utils.load_audio_to_mem import get_audio_and_transcript, pad_sequences
+from features.utils.text import sparse_tuple_from
 from utils.set_dirs import get_data_dir
 
-from features.utils.text import text_to_char_array, normalize_txt_file, sparse_tuple_from
-from features.utils.load_audio_to_mem import next_batch as my_next_batch
-from features.utils.load_audio_to_mem import pad_sequences
 
 DataSets = namedtuple('DataSets', 'train dev test')
 
@@ -83,8 +78,6 @@ class DataSet:
         self._txt_files = txt_files
         self._batch_size = batch_size
         self._numcontext = numcontext
-        self._thread_count = thread_count
-        self._files_circular_list = self._create_files_circular_list()
         self._start_idx = 0
 
     @classmethod
@@ -96,55 +89,22 @@ class DataSet:
             raise RuntimeError('start_idx=%d and limit=%d arguments result in zero files' % (start_idx, limit))
         return cls(txt_files, thread_count, batch_size, numcep, numcontext)
 
-    def start_queue_threads(self, session, coord):
-        self._coord = coord
-        batch_threads = [Thread(target=self._populate_batch_queue, args=(session,))
-                         for i in range(self._thread_count)]
-        for batch_thread in batch_threads:
-            batch_thread.daemon = True
-            batch_thread.start()
-        return batch_threads
-
-    def close_queue(self, session):
-        session.run(self._close_op)
-
-    def _create_files_circular_list(self):
-        priorityQueue = PriorityQueue()
-        for txt_file in self._txt_files:
-            wav_file = os.path.splitext(txt_file)[0] + ".wav"
-            wav_file_size = os.path.getsize(wav_file)
-            priorityQueue.put((wav_file_size, (txt_file, wav_file)))
-        files_list = []
-        while not priorityQueue.empty():
-            priority, (txt_file, wav_file) = priorityQueue.get()
-            files_list.append((txt_file, wav_file))
-        return cycle(files_list)
-
-    def _populate_batch_queue(self, session):
-        for txt_file, wav_file in self._files_circular_list:
-            if self._coord.should_stop():
-                return
-            source = audiofile_to_input_vector(wav_file, self._numcep, self._numcontext)
-            source_len = len(source)
-            target = normalize_txt_file(txt_file)
-            target = text_to_char_array(target)
-            target_len = len(target)
-            try:
-                session.run(self._enqueue_op, feed_dict={
-                    self._x: source,
-                    self._x_length: source_len,
-                    self._y: target,
-                    self._y_length: target_len})
-            except:
-                print("Exception occured in session.run(...)")
-                return
-
     def next_batch(self, batch_size=None):
         if batch_size is None:
             batch_size = self._batch_size
 
-        (source, _, target, _,
-         self._start_idx) = my_next_batch(self._txt_files, batch_size, start_idx=self._start_idx)
+        end_idx = min(len(self._txt_files), self._start_idx + batch_size)
+        idx_list = range(self._start_idx, end_idx)
+        txt_files = [self._txt_files[i] for i in idx_list]
+        wav_files = [x.replace('.txt', '.wav') for x in txt_files]
+        (source, _, target, _) = get_audio_and_transcript(txt_files,
+                                                          wav_files,
+                                                          self._numcep,
+                                                          self._numcontext)
+        self._start_idx += batch_size
+        # Verify that the start_idx is not larger than total available sample size
+        if self._start_idx >= self.size:
+            self._start_idx = 0
 
         # Pad input to max_time_step of this batch
         source, source_lengths = pad_sequences(source)

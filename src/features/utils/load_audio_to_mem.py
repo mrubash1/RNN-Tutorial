@@ -127,6 +127,7 @@ def audiofile_to_input_vector(audio_filename, numcep, numcontext):
         assert(len(train_inputs[time_slice]) == numcep + 2 * numcep * numcontext)
 
     # Scale/standardize the inputs
+    # This can be done more efficiently in the TensorFlow graph
     train_inputs = (train_inputs - np.mean(train_inputs)) / np.std(train_inputs)
     return train_inputs
 
@@ -196,18 +197,3 @@ def pad_sequences(sequences, maxlen=None, dtype=np.float32,
         else:
             raise ValueError('Padding type "%s" not understood' % padding)
     return x, lengths
-
-
-def next_batch(txt_files_all, batch_size, start_idx=0, n_input=26, n_context=9):
-    '''Get the next batch of data: audio feature vectors and transcripts.
-    '''
-    end_idx = min(len(txt_files_all), start_idx + batch_size)
-    idx_list = range(start_idx, end_idx)
-    txt_files = [txt_files_all[i] for i in idx_list]
-    wav_files = [x.replace('.txt', '.wav') for x in txt_files]
-    (inputs,
-     inputs_len,
-     targets,
-     targets_len) = get_audio_and_transcript(txt_files, wav_files, n_input, n_context)
-    start_idx += batch_size
-    return inputs, inputs_len, targets, targets_len, start_idx

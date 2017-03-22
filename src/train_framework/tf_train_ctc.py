@@ -316,6 +316,7 @@ class Tf_train_ctc(object):
                 "train_avg_loss", self.cost_placeholder)
 
     def setup_optimizer(self):
+        # Note: The optimizer is created in models/RNN/utils.py
         with tf.name_scope("train"):
             self.optimizer = create_optimizer()
             self.optimizer = self.optimizer.minimize(self.avg_loss)
@@ -325,7 +326,6 @@ class Tf_train_ctc(object):
             if self.beam_search_decoder == 'default':
                 self.decoded, self.log_prob = ctc_ops.ctc_beam_search_decoder(
                     self.logits, self.seq_length, merge_repeated=False)
-
             elif self.beam_search_decoder == 'greedy':
                 self.decoded, self.log_prob = ctc_ops.ctc_greedy_decoder(
                     self.logits, self.seq_length, merge_repeated=False)
@@ -341,7 +341,6 @@ class Tf_train_ctc(object):
 
             # Compute the label error rate (accuracy)
             self.ler = tf.reduce_mean(distance, name='label_error_rate')
-
             self.ler_placeholder = tf.placeholder(dtype=tf.float32, shape=[])
             self.train_ler_op = tf.summary.scalar(
                 "train_label_error_rate", self.ler_placeholder)
@@ -358,9 +357,6 @@ class Tf_train_ctc(object):
             stop_training = False
             is_checkpoint_step, is_validation_step = \
                 self.validation_and_checkpoint_check(epoch)
-
-            # reset the index to start choosing training examples from the beginning
-            self.data_sets.train._start_idx = 0
 
             epoch_start = time.time()
 
@@ -423,13 +419,10 @@ class Tf_train_ctc(object):
 
     def run_validation_step(self, epoch):
         dev_ler = 0
-        print_dev_decode = True
-
-        self.data_sets.dev._start_idx = 0
 
         _, dev_ler = self.run_batches(self.data_sets.dev,
                                       is_training=False,
-                                      decode=print_dev_decode,
+                                      decode=True,
                                       write_to_file=False,
                                       epoch=epoch)
 
@@ -441,7 +434,6 @@ class Tf_train_ctc(object):
 
         if dev_ler < self.min_dev_ler:
             self.min_dev_ler = dev_ler
-            print_dev_decode = True
 
         # average historical LER
         history_avg_ler = np.mean(self.AVG_VALIDATION_LERS)
@@ -547,6 +539,32 @@ if __name__ == '__main__':
         'Train RNN model using given CONFIG file'
         logging.basicConfig(level=logging.DEBUG,
                             format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+
+        # create the Tf_train_ctc class
+        tf_train_ctc = Tf_train_ctc(
+            config_file=config, model_name=name, debug=debug)
+
+        # run the training
+        tf_train_ctc.run_model()
+
+    main()
+
+# to run in console
+if __name__ == '__main__':
+    import click
+
+    # Use click to parse command line arguments
+    @click.command()
+    @click.option('--config', default='neural_network.ini', help='Configuration file name')
+    @click.option('--name', default=None, help='Model name for logging')
+    @click.option('--debug', type=bool, default=False,
+                  help='Use debug settings in config file')
+    # Train RNN model using a given configuration file
+    def main(config='neural_network.ini', name=None, debug=False):
+        logging.basicConfig(level=logging.DEBUG,
+                            format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+        global logger
+        logger = logging.getLogger(os.path.basename(__file__))
 
         # create the Tf_train_ctc class
         tf_train_ctc = Tf_train_ctc(

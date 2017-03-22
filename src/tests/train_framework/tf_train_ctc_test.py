@@ -17,7 +17,7 @@ class TestTrain_ctc(unittest.TestCase):
         '''
         self.tf_train_ctc = tf_train.Tf_train_ctc(
             config_file='neural_network.ini',
-            debug=False,
+            debug=True,
             model_name=None)
 
     def tearDown(self):
