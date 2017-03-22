@@ -534,23 +534,6 @@ class Tf_train_ctc(object):
 
 # to run in console
 if __name__ == '__main__':
-
-    def main(config='neural_network.ini', name=None, debug=False):
-        'Train RNN model using given CONFIG file'
-        logging.basicConfig(level=logging.DEBUG,
-                            format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
-
-        # create the Tf_train_ctc class
-        tf_train_ctc = Tf_train_ctc(
-            config_file=config, model_name=name, debug=debug)
-
-        # run the training
-        tf_train_ctc.run_model()
-
-    main()
-
-# to run in console
-if __name__ == '__main__':
     import click
 
     # Use click to parse command line arguments
