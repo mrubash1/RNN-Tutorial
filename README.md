@@ -35,7 +35,7 @@ pip install --upgrade \
  https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl
 ```
 
-Error note: At this point, due to how people have installed pip, we've seen people with different outcomes. If you get an error the first time, rerunning it might show that it installs without error (this is false hope). Try running with `pip install --upgrade  https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl --force-reinstall`. The `--force-reinstall` flag tells it to reinstall the package. If that still doesn't work, please open an [issue](https://github.com/silicon-valley-data-science/RNN-Tutorial/issues), or you can try to follow the advice [here](https://www.tensorflow.org/install/install_mac).
+**Error note** (if you did not get an error skip this paragraph): At this point, due to how people have installed pip, we've seen people with different outcomes. If you get an error the first time, rerunning it might show that it installs without error (this is false hope). Try running with `pip install --upgrade  https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl --force-reinstall`. The `--force-reinstall` flag tells it to reinstall the package. If that still doesn't work, please open an [issue](https://github.com/silicon-valley-data-science/RNN-Tutorial/issues), or you can try to follow the advice [here](https://www.tensorflow.org/install/install_mac).
 
 
 ### Run RNN training
