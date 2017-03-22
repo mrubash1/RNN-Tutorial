@@ -31,11 +31,19 @@ pip install tensorflow-gpu==1.0.1
 If you will be running TensorFlow on CPU only (i.e. a MacBook Pro), use the following command (if you get an error the first time you run this command read below):
 
 ```bash
-pip install --upgrade \
+pip install --upgrade --ignore-installed\
  https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl
 ```
 
-**Error note** (if you did not get an error skip this paragraph): At this point, due to how people have installed pip, we've seen people with different outcomes. If you get an error the first time, rerunning it might show that it installs without error (this is false hope). Try running with `pip install --upgrade  https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl --force-reinstall`. The `--force-reinstall` flag tells it to reinstall the package. If that still doesn't work, please open an [issue](https://github.com/silicon-valley-data-science/RNN-Tutorial/issues), or you can try to follow the advice [here](https://www.tensorflow.org/install/install_mac).
+<sub>**Error note** (if you did not get an error skip this paragraph): Depending on how you installed pip and/or conda, we've seen different outcomes. If you get an error the first time, rerunning it may incorrectly show that it installs without error. Try running with `pip install --upgrade  https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.0.1-py3-none-any.whl --ignore-installed`. The `--ignore-installed` flag tells it to reinstall the package. If that still doesn't work, please open an [issue](https://github.com/silicon-valley-data-science/RNN-Tutorial/issues), or you can try to follow the advice [here](https://www.tensorflow.org/install/install_mac).</sub>
+
+
+### Run unittests
+We have included example unittests for the `tf_train_ctc.py` script
+
+```bash
+python $RNN_TUTORIAL/src/tests/train_framework/tf_train_ctc_test.py
+```
 
 
 ### Run RNN training
@@ -60,13 +68,6 @@ tensorboard --logdir=$RNN_TUTORIAL/models/nn/debug_models/summary/
 - Related to this are the `tf.summary.* methods` that log values of network parts, such as distributions of layer activations or error rate across epochs. These summaries are grouped within the `tf.name_scope`.
 - See the official TensorFlow documentation for more details.
 
-
-### Run unittests
-We have included example unittests for the `tf_train_ctc.py` script
-
-```bash
-python $RNN_TUTORIAL/src/tests/train_framework/tf_train_ctc_test.py
-```
 
 ### Add data
 We have included example data from the [LibriVox corpus](https://librivox.org) in `data/raw/librivox/LibriSpeech/`. The data is separated into folders:
