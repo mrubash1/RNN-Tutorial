@@ -70,9 +70,11 @@ python $RNN_TUTORIAL/src/tests/train_framework/tf_train_ctc_test.py
 
 ### Add data
 We have included example data from the [LibriVox corpus](https://librivox.org) in `data/raw/librivox/LibriSpeech/`. The data is separated into folders:
+
     - Train: train-clean-100-wav (5 examples)
     - Test: test-clean-wav (2 examples)
     - Dev: dev-clean-wav (2 examples)
+
 If you would like to train a performant model, you can add additional wave and txt files to these folders, or create a new folder and update `configs/neural_network.ini` with the folder locations  
 
 
