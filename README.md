@@ -13,16 +13,16 @@ pip install -r requirements.txt
 ```
 - Dowload the NLTK packages for text processing and search
 ```bash
-    python -m nltk.downloader punkt
-    python -m nltk.downloader stopwords
-    python -m nltk.downloader wordnet
+python -m nltk.downloader punkt
+python -m nltk.downloader stopwords
+python -m nltk.downloader wordnet
 ```
 - Downloading the BERT model by going to Covid_Search_Tool/models
 ```bash
-    wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
-    unzip uncased_L-12_H-768_A-12.zip
-    pip install bert-serving-server==1.10 --no-deps
-    rm uncased_L-12_H-768_A-12.zip
+wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
+unzip uncased_L-12_H-768_A-12.zip
+pip install bert-serving-server==1.10 --no-deps
+rm uncased_L-12_H-768_A-12.zip
  ```   
 
 
